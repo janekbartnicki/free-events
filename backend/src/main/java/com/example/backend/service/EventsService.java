@@ -5,10 +5,12 @@ import com.example.backend.dto.EventMapper;
 import com.example.backend.model.Event;
 import com.example.backend.model.User;
 import com.example.backend.repository.EventsRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,5 +55,32 @@ public class EventsService {
         event.setOrganizer(foundUserById);
         Event createdEvent = eventsRepository.save(event);
         return EventMapper.toEventDTO(createdEvent);
+    }
+
+    @Transactional
+    public void registerUserToEvent(Long eventId, Long userId) throws IllegalArgumentException {
+        Event event = eventsRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+
+        User user = usersService.findUserById(userId);
+
+        if (event.getRegisteredUsers().contains(user)) {
+            throw new IllegalArgumentException("User already registered for this event");
+        }
+
+        if (event.getEventDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Cannot register for past event");
+        }
+
+        event.getRegisteredUsers().add(user);
+        eventsRepository.save(event);
+    }
+
+    public List<User> getRegisteredUsers(Long eventId) throws IllegalArgumentException {
+        if (!eventsRepository.existsById(eventId)) {
+            throw new IllegalArgumentException("Event not found");
+        }
+
+        return eventsRepository.findRegisteredUsersByEventId(eventId);
     }
 }

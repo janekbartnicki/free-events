@@ -1,8 +1,12 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -22,4 +26,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @ManyToMany(mappedBy = "registeredUsers")
+    @JsonIgnore
+    private Set<Event> registeredEvents = new HashSet<>();
 }
