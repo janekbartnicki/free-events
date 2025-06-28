@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -35,7 +35,7 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> registeredUsers = new HashSet<>();
+    private List<User> registeredUsers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -43,5 +43,5 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories = new HashSet<>();
+    private List<Category> categories = new ArrayList<>();
 }

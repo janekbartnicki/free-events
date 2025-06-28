@@ -14,6 +14,8 @@ public class EventMapper {
         eventDTO.setLocation(event.getLocation());
         eventDTO.setEventDate(event.getEventDate());
         eventDTO.setOrganizerId(event.getOrganizer().getId());
+        eventDTO.setRegisteredUsers(event.getRegisteredUsers().stream().toList());
+        eventDTO.setEventCategories(event.getCategories().stream().toList());
 
         return eventDTO;
     }
@@ -25,6 +27,8 @@ public class EventMapper {
         event.setDescription(eventDTO.getDescription());
         event.setLocation(eventDTO.getLocation());
         event.setEventDate(eventDTO.getEventDate());
+        event.setRegisteredUsers(eventDTO.getRegisteredUsers());
+        event.setCategories(eventDTO.getEventCategories());
 
         User organizer = new User();
         organizer.setId(eventDTO.getOrganizerId());

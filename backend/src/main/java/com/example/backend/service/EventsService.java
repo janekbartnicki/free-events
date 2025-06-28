@@ -82,4 +82,11 @@ public class EventsService {
 
         return eventsRepository.findRegisteredUsersByEventId(eventId);
     }
+
+    public void deleteEvent(Long eventId) {
+        Event event = eventsRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found with id: " + eventId));
+        eventsRepository.delete(event);
+    }
+
 }

@@ -63,4 +63,15 @@ public class EventsController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<?> deleteEvent(@PathVariable Long eventId) {
+        try {
+            eventsService.deleteEvent(eventId);
+            return ResponseEntity.ok("Event deleted successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

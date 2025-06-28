@@ -3,8 +3,8 @@ package com.example.backend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -18,5 +18,5 @@ public class Category {
     public String name;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Event> events = new HashSet<>();
+    private List<Event> events = new ArrayList<>();
 }

@@ -34,4 +34,7 @@ public class CategoriesController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+//    @GetMapping("/{eventId}")
+//    public ResponseEntity<List<Category>> getEventCategories
 }
